@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/datepicker/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -38,6 +39,12 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datepicker")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("[type='datetime'],[type='date']").datepicker({ format: "yyyy/mm/dd", autoclose: true }).attr({ "data-mask": "", "data-inputmask": "'alias': 'yyyy/mm/dd'", "maxlength": "10" });
+        });
+    </script>
 </body>
 </html>

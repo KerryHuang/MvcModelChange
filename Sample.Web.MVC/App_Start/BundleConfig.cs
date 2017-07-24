@@ -23,9 +23,17 @@ namespace Sample.Web.MVC
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            // bootstrap datepicker
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                      "~/Scripts/bootstrap-datepicker.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            // bootstrap datepicker
+            bundles.Add(new StyleBundle("~/Content/datepicker/css").Include(
+                   "~/Content/bootstrap-datepicker3.css"));
         }
     }
 }

@@ -9,9 +9,14 @@ namespace Sample.Repository.Interface
 {
     public interface IEmployeeRepository
     {
-        Employee GetOne(int id);
+        Employee Get(int id);
 
-        IEnumerable<Employee> GetEmployees();
+        IEnumerable<Employee> GetAll();
 
+        Employee Create(Employee employee);
+
+        Employee Update(Employee employee);
+
+        int Delete(int id);
     }
 }

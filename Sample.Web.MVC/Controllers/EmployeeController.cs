@@ -1,4 +1,5 @@
-﻿using Sample.Repository.Interface;
+﻿using Sample.Domain;
+using Sample.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,54 +20,69 @@ namespace Sample.Web.MVC.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            var employees = this._repository.GetEmployees();
+            var employees = this._repository.GetAll();
             return View(employees);
         }
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {
-            var employee = this._repository.GetOne(id);
+            var employee = this._repository.Get(id);
             return View(employee);
         }
 
         // GET: Employee/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
         // POST: Employee/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Employee instance)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    this._repository.Create(instance);
+                    return RedirectToAction("Index");
+                }
+
+                return View(instance);
             }
             catch
             {
-                return View();
+                return View(instance);
             }
         }
 
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var employee = this._repository.Get(id);
+            return View(employee);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Employee instance)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    this._repository.Update(instance);
+                    return RedirectToAction("Index");
+                }
+                return View(instance);
             }
             catch
             {
@@ -77,17 +93,19 @@ namespace Sample.Web.MVC.Controllers
         // GET: Employee/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var employee = this._repository.Get(id);
+            return View(employee);
         }
 
         // POST: Employee/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                this._repository.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

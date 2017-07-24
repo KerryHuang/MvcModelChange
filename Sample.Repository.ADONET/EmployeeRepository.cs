@@ -1,7 +1,9 @@
 ﻿using Sample.Domain;
 using Sample.Repository.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,42 +15,25 @@ namespace Sample.Repository.ADONET
 {
     public class EmployeeRepository : BaseRepository, IEmployeeRepository
     {
+        DAO<Employee> db;
+
+        public EmployeeRepository()
+        {
+            db = new DAO<Employee>(this.ConnectionString);
+            db.TableName = "Employees";
+        }
+
         /// <summary>
         /// Gets the one.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public Employee GetOne(int id)
+        public Employee Get(int id)
         {
-            string sqlStatement = "select * from Employees where EmployeeID = @EmployeeID";
-
-            Employee item = new Employee();
-
-            using (SqlConnection conn = new SqlConnection(this.ConnectionString))
-            using (SqlCommand comm = new SqlCommand(sqlStatement, conn))
-            {
-                comm.Parameters.Add(new SqlParameter("EmployeeID", id));
-
-                if (conn.State != ConnectionState.Open) conn.Open();
-
-                using (IDataReader reader = comm.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            PropertyInfo property = item.GetType().GetProperty(reader.GetName(i));
-
-                            if (property != null && !reader.GetValue(i).Equals(DBNull.Value))
-                            {
-                                ReflectionHelper.SetValue(property.Name, reader.GetValue(i), item);
-                            }
-                        }
-                    }
-                }
-            }
-            return item;
+            db.SQL.AppendLine("select * from Employees where EmployeeID = @EmployeeID");
+            db.Parameters.Add("EmployeeID", id);
+            return db.Get();
         }
 
         /// <summary>
@@ -56,41 +41,45 @@ namespace Sample.Repository.ADONET
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IEnumerable<Employee> GetEmployees()
+        public IEnumerable<Employee> GetAll()
         {
-            List<Employee> employees = new List<Employee>();
+            db.SQL.AppendLine("select * from Employees order by EmployeeID");
+            return db.GetAll();
+        }
 
-            string sqlStatement = "select * from Employees order by EmployeeID";
+        /// <summary>
+        /// add the employee
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <returns></returns>
+        public Employee Create(Employee employee)
+        {
+            return db.Create(employee);
+        }
 
-            using (SqlConnection conn = new SqlConnection(this.ConnectionString))
-            using (SqlCommand command = new SqlCommand(sqlStatement, conn))
+        /// <summary>
+        /// update the employee
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <returns></returns>
+        public Employee Update(Employee employee)
+        {
+            return db.Update(employee);
+        }
+
+        /// <summary>
+        /// delete the employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Delete(int id)
+        {
+            var item = Get(id);
+            if (item != null)
             {
-                command.CommandType = CommandType.Text;
-                command.CommandTimeout = 180;
-
-                if (conn.State != ConnectionState.Open) conn.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Employee item = new Employee();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            PropertyInfo property = item.GetType().GetProperty(reader.GetName(i));
-
-                            if (property != null && !reader.GetValue(i).Equals(DBNull.Value))
-                            {
-                                ReflectionHelper.SetValue(property.Name, reader.GetValue(i), item);
-                            }
-                        }
-                        employees.Add(item);
-                    }
-                }
+                return db.Delete(item);
             }
-
-            return employees;
+            return 0;
         }
     }
 }

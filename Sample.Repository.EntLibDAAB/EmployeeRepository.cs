@@ -19,7 +19,7 @@ namespace Sample.Repository.EntLibDAAB
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns></returns>
-        public Employee GetOne(int id)
+        public Employee Get(int id)
         {
             string sqlStatement = "select * from Employees where EmployeeID = @EmployeeID";
 
@@ -37,7 +37,7 @@ namespace Sample.Repository.EntLibDAAB
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IEnumerable<Employee> GetEmployees()
+        public IEnumerable<Employee> GetAll()
         {
             string sqlStatement = "select * from Employees order by EmployeeID";
 
@@ -48,114 +48,21 @@ namespace Sample.Repository.EntLibDAAB
         }
 
 
-        #region -- 基本操作 --
-        //public Employee GetOne(int id)
-        //{
-        //    string sqlStatement = "select * from Employees where EmployeeID = @EmployeeID";
+        public Employee Create(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
 
-        //    Employee item = new Employee();
 
-        //    using (DbCommand comm = Db.GetSqlStringCommand(sqlStatement))
-        //    {
-        //        var param = comm.CreateParameter();
-        //        param.ParameterName = "EmployeeID";
-        //        param.Value = id;
-        //        comm.Parameters.Add(param);
+        public Employee Update(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
 
-        //        using (IDataReader reader = this.Db.ExecuteReader(comm))
-        //        {
-        //            if (reader.Read())
-        //            {
-        //                for (int i = 0; i < reader.FieldCount; i++)
-        //                {
-        //                    PropertyInfo property = item.GetType().GetProperty(reader.GetName(i));
-
-        //                    if (property != null && !reader.GetValue(i).Equals(DBNull.Value))
-        //                    {
-        //                        ReflectionHelper.SetValue(property.Name, reader.GetValue(i), item);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return item;
-        //}
-
-        //public IEnumerable<Employee> GetEmployees()
-        //{
-        //    List<Employee> employees = new List<Employee>();
-
-        //    string sqlStatement = "select * from Employees order by EmployeeID";
-
-        //    using (DbCommand comm = Db.GetSqlStringCommand(sqlStatement))
-        //    using (IDataReader reader = this.Db.ExecuteReader(comm))
-        //    {
-        //        while (reader.Read())
-        //        {
-        //            Employee item = new Employee();
-
-        //            for (int i = 0; i < reader.FieldCount; i++)
-        //            {
-        //                PropertyInfo property = item.GetType().GetProperty(reader.GetName(i));
-
-        //                if (property != null && !reader.GetValue(i).Equals(DBNull.Value))
-        //                {
-        //                    ReflectionHelper.SetValue(property.Name, reader.GetValue(i), item);
-        //                }
-        //            }
-        //            employees.Add(item);
-        //        }
-        //    }
-        //    return employees;
-        //} 
-        #endregion
-
-        #region -- 進階操作 - 使用 IRowMapper, MapBuilder<T>.BuildAllProperties() --
-        //public Employee GetOne(int id)
-        //{
-        //    string sqlStatement = "select * from Employees where EmployeeID = @EmployeeID";
-
-        //    using (DbCommand comm = Db.GetSqlStringCommand(sqlStatement))
-        //    {
-        //        var param = comm.CreateParameter();
-        //        param.ParameterName = "EmployeeID";
-        //        param.Value = id;
-        //        comm.Parameters.Add(param);
-
-        //        using (IDataReader reader = this.Db.ExecuteReader(comm))
-        //        {
-        //            if (reader.Read())
-        //            {
-        //                // 把 reader 物件中的欄位值塞給 Category 物件的對應屬性
-        //                IRowMapper<Employee> mapper = MapBuilder<Employee>.BuildAllProperties();
-        //                Employee item = mapper.MapRow(reader);
-        //                return item;
-        //            }
-        //            return null;
-        //        }
-        //    }
-        //}
-
-        //public IEnumerable<Employee> GetEmployees()
-        //{
-        //    List<Employee> employees = new List<Employee>();
-
-        //    string sqlStatement = "select * from Employees order by EmployeeID";
-
-        //    using (DbCommand comm = Db.GetSqlStringCommand(sqlStatement))
-        //    using (IDataReader reader = this.Db.ExecuteReader(comm))
-        //    {
-        //        while (reader.Read())
-        //        {
-        //            IRowMapper<Employee> mapper = MapBuilder<Employee>.BuildAllProperties();
-        //            Employee item = mapper.MapRow(reader);
-        //            employees.Add(item);
-        //        }
-        //    }
-        //    return employees;
-        //} 
-        #endregion
-
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class EmployeeIDParameterMapper : IParameterMapper
