@@ -15,11 +15,11 @@ namespace Sample.Repository.ADONET
 {
     public class EmployeeRepository : BaseRepository, IEmployeeRepository
     {
-        DAO<Employee> db;
+        DAO<EmployeeViewModel> db;
 
         public EmployeeRepository()
         {
-            db = new DAO<Employee>(this.ConnectionString);
+            db = new DAO<EmployeeViewModel>(this.ConnectionString);
             db.TableName = "Employees";
         }
 
@@ -29,7 +29,7 @@ namespace Sample.Repository.ADONET
         /// <param name="id">The id.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public Employee Get(int id)
+        public EmployeeViewModel Get(int id)
         {
             db.SQL.AppendLine("select * from Employees where EmployeeID = @EmployeeID");
             db.Parameters.Add("EmployeeID", id);
@@ -41,7 +41,7 @@ namespace Sample.Repository.ADONET
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<EmployeeViewModel> GetAll()
         {
             db.SQL.AppendLine("select * from Employees order by EmployeeID");
             return db.GetAll();
@@ -52,7 +52,7 @@ namespace Sample.Repository.ADONET
         /// </summary>
         /// <param name="employee"></param>
         /// <returns></returns>
-        public Employee Create(Employee employee)
+        public EmployeeViewModel Create(EmployeeViewModel employee)
         {
             return db.Create(employee);
         }
@@ -62,7 +62,7 @@ namespace Sample.Repository.ADONET
         /// </summary>
         /// <param name="employee"></param>
         /// <returns></returns>
-        public Employee Update(Employee employee)
+        public EmployeeViewModel Update(EmployeeViewModel employee)
         {
             return db.Update(employee);
         }

@@ -19,12 +19,12 @@ namespace Sample.Repository.EntLibDAAB
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns></returns>
-        public Employee Get(int id)
+        public EmployeeViewModel Get(int id)
         {
             string sqlStatement = "select * from Employees where EmployeeID = @EmployeeID";
 
-            DataAccessor<Employee> accessor =
-                this.Db.CreateSqlStringAccessor<Employee>(
+            DataAccessor<EmployeeViewModel> accessor =
+                this.Db.CreateSqlStringAccessor<EmployeeViewModel>(
                     sqlStatement,
                     new EmployeeIDParameterMapper(),
                     new EmployeeMapper());
@@ -37,24 +37,24 @@ namespace Sample.Repository.EntLibDAAB
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<EmployeeViewModel> GetAll()
         {
             string sqlStatement = "select * from Employees order by EmployeeID";
 
-            DataAccessor<Employee> accessor =
-                this.Db.CreateSqlStringAccessor<Employee>(sqlStatement, new EmployeeMapper());
+            DataAccessor<EmployeeViewModel> accessor =
+                this.Db.CreateSqlStringAccessor<EmployeeViewModel>(sqlStatement, new EmployeeMapper());
 
             return accessor.Execute();
         }
 
 
-        public Employee Create(Employee employee)
+        public EmployeeViewModel Create(EmployeeViewModel employee)
         {
             throw new NotImplementedException();
         }
 
 
-        public Employee Update(Employee employee)
+        public EmployeeViewModel Update(EmployeeViewModel employee)
         {
             throw new NotImplementedException();
         }
@@ -76,11 +76,11 @@ namespace Sample.Repository.EntLibDAAB
         }
     }
 
-    public class EmployeeMapper : IRowMapper<Employee>
+    public class EmployeeMapper : IRowMapper<EmployeeViewModel>
     {
-        public Employee MapRow(IDataRecord reader)
+        public EmployeeViewModel MapRow(IDataRecord reader)
         {
-            Employee item = new Employee();
+            EmployeeViewModel item = new EmployeeViewModel();
 
             for (int i = 0; i < reader.FieldCount; i++)
             {

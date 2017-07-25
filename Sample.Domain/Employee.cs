@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sample.Domain
 {
-    public class Employee
+    public class EmployeeViewModel
     {
         [Key]
         public int EmployeeID { get; set; }

@@ -36,5 +36,6 @@ namespace Sample.Repository.EF
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
+        public virtual DbSet<ExchangeRate> ExchangeRate { get; set; }
     }
 }

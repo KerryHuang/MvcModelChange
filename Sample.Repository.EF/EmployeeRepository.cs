@@ -20,16 +20,16 @@ namespace Sample.Repository.EF
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns></returns>
-        public Employee Get(int id)
+        public EmployeeViewModel Get(int id)
         {
             var employee = this.db.Employees.FirstOrDefault(x => x.EmployeeID == id);
 
             if (employee != null)
             {
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<Sample.Repository.EF.Employees, Employee>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<Sample.Repository.EF.Employees, EmployeeViewModel>());
                 config.AssertConfigurationIsValid();//←證驗應對
                 var mapper = config.CreateMapper();
-                Employee instance = mapper.Map<Employee>(employee);
+                EmployeeViewModel instance = mapper.Map<EmployeeViewModel>(employee);
                 return instance;
             }
             return null;
@@ -39,60 +39,57 @@ namespace Sample.Repository.EF
         /// Gets the employees.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<EmployeeViewModel> GetAll()
         {
             var employees = this.db.Employees.OrderBy(x => x.EmployeeID).ToList();
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Sample.Repository.EF.Employees, Employee>().PreserveReferences());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Sample.Repository.EF.Employees, EmployeeViewModel>().PreserveReferences());
             config.AssertConfigurationIsValid();//←證驗應對
             var mapper = config.CreateMapper();
-            List<Employee> result = mapper.Map<List<Employee>>(employees);
+            List<EmployeeViewModel> instance = mapper.Map<List<EmployeeViewModel>>(employees);
 
-            return result;
+            return instance;
         }
 
-        public Employee Create(Employee employee)
+        public EmployeeViewModel Create(EmployeeViewModel instance)
         {
-            if (employee == null)
+            if (instance == null)
             {
                 throw new ArgumentNullException("entity");
             }
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Employee, Sample.Repository.EF.Employees>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, Sample.Repository.EF.Employees>());
             var mapper = config.CreateMapper();
-            Employees entity = mapper.Map<Employees>(employee);
+            Employees entity = mapper.Map<Employees>(instance);
 
             db.Set<Employees>().Add(entity);
             SaveChanges();
 
-            return employee;
+            return instance;
         }
 
-        public Employee Update(Employee employee)
+        public EmployeeViewModel Update(EmployeeViewModel instance)
         {
-            if (employee == null)
+            if (instance == null)
             {
                 throw new ArgumentNullException("entity");
             }
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Employee, Sample.Repository.EF.Employees>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, Sample.Repository.EF.Employees>());
             var mapper = config.CreateMapper();
-            Employees entity = mapper.Map<Employees>(employee);
+            Employees entity = mapper.Map<Employees>(instance);
 
             db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
             SaveChanges();
 
-            return employee;
+            return instance;
         }
 
         public int Delete(int id)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException("entity");
-            }
-
             var entity = this.db.Employees.FirstOrDefault(x => x.EmployeeID == id);
+
+            if (entity == null) return 0;
 
             db.Set<Employees>().Remove(entity);
 

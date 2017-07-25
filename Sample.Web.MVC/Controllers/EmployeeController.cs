@@ -41,7 +41,7 @@ namespace Sample.Web.MVC.Controllers
         // POST: Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Employee instance)
+        public ActionResult Create(EmployeeViewModel instance)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Sample.Web.MVC.Controllers
         // POST: Employee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Employee instance)
+        public ActionResult Edit(EmployeeViewModel instance)
         {
             try
             {

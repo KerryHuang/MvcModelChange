@@ -26,6 +26,7 @@
         <AssociationConnector Association="NorthwindModel.FK_Products_Suppliers" />
         <AssociationConnector Association="NorthwindModel.FK_Territories_Region" />
         <AssociationConnector Association="NorthwindModel.EmployeeTerritories" />
+        <EntityTypeShape EntityType="NorthwindModel.ExchangeRate" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

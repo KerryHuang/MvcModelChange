@@ -40,6 +40,12 @@ namespace Sample.Web.MVC.App_Start
                 typeof(IEmployeeRepository),
                 ReflectionHelper.GetType(repositoryType, string.Concat(repositoryType, ".EmployeeRepository"))
             );
+
+            container.Register
+            (
+                typeof(IExchangeRateRepository),
+                ReflectionHelper.GetType(repositoryType, string.Concat(repositoryType, ".ExchangeRateRepository"))
+            );
         }
     }
 }
